@@ -223,4 +223,29 @@ echo "Secret: ${SECRET}"
 echo "TG Proxy: tg://proxy?server=${DOMAIN}&port=443&secret=${TG_SECRET}"
 echo "Trojan-Go: trojan-go://jina@${DOMAIN}:443?encryption=none&host=${DOMAIN}&path=%2F${SECRET}%2Ftrojan-go&sni=${DOMAIN}&type=ws"
 
+mkdir -p /var/www/html/${SECRET}
+cat >/var/www/html/${SECRET}/clash.yaml <<EOF
+---
+mixed-port: 1080
+mode: rule
+dns:
+  enhanced-mode: fake-ip
+  fake-ip-range: 10.20.0.0/16
+  nameserver:
+    - https://${DOMAIN}/${SECRET}/dns-cf
+proxies:
+  - name: trojan-go-${DOMAIN}
+    server: ${DOMAIN}
+    port: 443
+    type: trojan
+    password: jina
+    network: ws
+    sni: ${DOMAIN}
+    udp: true
+    ws-opts:
+      path: /${SECRET}/trojan-go
+rules:
+  - MATCH,trojan-go-${DOMAIN}
+EOF
+
 echo "Done."
