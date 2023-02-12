@@ -182,7 +182,7 @@ http {
     error_log /var/log/nginx/error.log;
 
     server {
-        listen 8443 ssl;
+        listen 8443 ssl http2;
         ssl_certificate /etc/letsencrypt/live/${DOMAIN}/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/${DOMAIN}/privkey.pem;
 
