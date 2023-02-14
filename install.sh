@@ -240,7 +240,15 @@ proxies:
     udp: true
     ws-opts:
       path: /${SECRET}/trojan-go
+rule-providers:
+  iran:
+    type: http
+    behavior: classical
+    url: https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/clash_rules.yaml
+    path: ./ruleset/iran.yaml
+    interval: 432000
 rules:
+  - RULE-SET,iran,DIRECT
   - MATCH,trojan-go-${DOMAIN}
 EOF
 
