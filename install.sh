@@ -219,10 +219,6 @@ http {
 EOF
 systemctl reload nginx
 
-echo "Secret: ${SECRET}"
-echo "TG Proxy: tg://proxy?server=${DOMAIN}&port=443&secret=${TG_SECRET}"
-echo "Trojan-Go: trojan-go://jina@${DOMAIN}:443?encryption=none&host=${DOMAIN}&path=%2F${SECRET}%2Ftrojan-go&sni=${DOMAIN}&type=ws"
-
 mkdir -p /var/www/html/${SECRET}
 cat >/var/www/html/${SECRET}/clash.yaml <<EOF
 ---
@@ -247,5 +243,10 @@ proxies:
 rules:
   - MATCH,trojan-go-${DOMAIN}
 EOF
+
+echo "Secret: ${SECRET}"
+echo "TG Proxy: tg://proxy?server=${DOMAIN}&port=443&secret=${TG_SECRET}"
+echo "Trojan-Go: trojan-go://jina@${DOMAIN}:443?encryption=none&host=${DOMAIN}&path=%2F${SECRET}%2Ftrojan-go&sni=${DOMAIN}&type=ws"
+echo "Clash: https://${DOMAIN}/${SECRET}/clash.yaml"
 
 echo "Done."
