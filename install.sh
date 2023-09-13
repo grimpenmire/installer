@@ -241,14 +241,23 @@ proxies:
     ws-opts:
       path: /${SECRET}/trojan-go
 rule-providers:
-  iran:
+  iran_other:
     type: http
-    behavior: classical
-    url: https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/clash_rules.yaml
-    path: ./ruleset/iran.yaml
+    behavior: domain
+    url: "https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/clash_rules_other.yaml"
+    path: ./ruleset/iran_other.txt
+    interval: 432000
+  iran_ads:
+    type: http
+    behavior: domain
+    url: "https://github.com/bootmortis/iran-hosted-domains/releases/latest/download/clash_rules_ads.yaml"
+    path: ./ruleset/iran_ads.txt
     interval: 432000
 rules:
-  - RULE-SET,iran,DIRECT
+  - RULE-SET,iran_ads,REJECT
+  - DOMAIN-SUFFIX,ir,DIRECT
+  - RULE-SET,iran_other,DIRECT
+  - GEOIP,IR,DIRECT
   - MATCH,trojan-go-${DOMAIN}
 EOF
 
