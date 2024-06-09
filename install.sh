@@ -261,6 +261,9 @@ rules:
   - MATCH,trojan-go-${DOMAIN}
 EOF
 
+echo 'Hi' >/var/www/html/index.html
+chown www-data:www-data /var/www/html -R
+
 echo "Secret: ${SECRET}"
 echo "TG Proxy: tg://proxy?server=${DOMAIN}&port=443&secret=${TG_SECRET}"
 echo "Trojan-Go: trojan-go://jina@${DOMAIN}:443?encryption=none&host=${DOMAIN}&path=%2F${SECRET}%2Ftrojan-go&sni=${DOMAIN}&type=ws"
